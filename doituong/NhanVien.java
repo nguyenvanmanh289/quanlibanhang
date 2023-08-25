@@ -88,5 +88,18 @@ public class NhanVien {
     }
 
     //=====more method====//
+    public void GetIncomeTrackbyBill(){
+        HoaDon biller = new HoaDon();
+        ArrayList<HoaDon> bills = new ArrayList<HoaDon>();
+        bills = biller.GetListHoaDon();
+
+        float sumIncome = 0;
+        for (HoaDon bill : bills) {
+            if(employeeCode.equals(bill.getEmployeeCode())){
+                sumIncome += bill.SumPay();
+            }
+        }
+         System.out.print("Doanh thu nhan vien "+this.name+" la:" +sumIncome+"\n");
+    }
  
 }

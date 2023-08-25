@@ -81,6 +81,53 @@ public class QuanLiSanPham {
         return x;
     }
 
+    public SanPham SearchProductNoLoop() {
+        QuanLiSanPham manager = new QuanLiSanPham();
+        ArrayList<SanPham> products = new ArrayList<SanPham>();
+        products = manager.GetListProduct();
+        Scanner sc = new Scanner(System.in);
+        SanPham x = null;
+        
+            System.out.print("nhap vao ma San Pham de tim kiem :\n");
+            String a = sc.nextLine();
+
+            boolean isFound = false;
+                for(SanPham product : products) {
+                    if(a.equals(product.getProductCode())){
+                        System.out.print(
+                                "Ket qua tim kiem theo: " + a + "\n\n" +
+                                        "   San Pham: " + product.getName() + "\n"
+                        );
+                                        
+                        x = product;
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound) {
+                    System.out.print("Khong tim thay San pham theo: " + a + "\n");
+                    return null;
+                }else{
+                    return x;
+                }
+    }
+
+    public String FindNametByCode(String code) {
+        QuanLiSanPham manager = new QuanLiSanPham();
+        ArrayList<SanPham> products = new ArrayList<SanPham>();
+        products = manager.GetListProduct();
+        
+        SanPham x = null;
+            String a = code;
+                for(SanPham product : products) {
+                    if(a.equals(product.getProductCode())){                   
+                        x = product;
+                        break;
+                    }
+                }
+        return x.getName();
+    }
+
 
     // method nhap de phuc vu dau vao cho method them nhan vien=========================================
     public SanPham InputProduct(){
@@ -265,7 +312,7 @@ public class QuanLiSanPham {
         ArrayList<SanPham> products = new ArrayList<SanPham>();
         products = manager.GetListProduct();
 
-        //tim nhan vien can sua
+        //tim san pham can sua
         SanPham x = manager.SearchProduct();
        
         int index=0;
@@ -299,6 +346,66 @@ public class QuanLiSanPham {
             }
         }
          manager.CheckAndEditProduct(x);
+    }
+
+
+    // chi dung cho quan li ban hang
+    public void EditProductInfo1(SanPham x){
+        QuanLiSanPham manager = new QuanLiSanPham();
+        ArrayList<SanPham> products = new ArrayList<SanPham>();
+        products = manager.GetListProduct();
+
+        //tim san pham can sua
+       
+        int index=0;
+        for (SanPham product : products) {
+            if(x.getProductCode().equals(product.getProductCode())){
+               break;
+            }
+            index++;
+        }
+        products.remove(products.get(index));
+            // xoa data base de chuan bi ghi lai du lieu
+            try {
+                FileWriter fw = new FileWriter("./doituong/database/sanpham.txt");
+                BufferedWriter bf = new BufferedWriter(fw);
+                bf.write("");
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        
+        
+        for (SanPham product : products) {
+            try {
+                FileWriter fw = new FileWriter("./doituong/database/sanpham.txt",true);
+                BufferedWriter bf = new BufferedWriter(fw);
+                bf.write(manager.ProductToString(product));
+                bf.newLine();
+                bf.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+         manager.CheckAndEditProduct1(x);
+    }
+    public void CheckAndEditProduct1(SanPham a){
+
+        QuanLiSanPham manager = new QuanLiSanPham();
+        String string = manager.ProductToString(a);
+            
+            try {
+                FileWriter fw = new FileWriter("./doituong/database/sanpham.txt",true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(string);
+                bw.newLine();
+                bw.close();
+                                
+            } catch (IOException e) {
+                System.out.print("co loi say ra trong qua trinh sua San pham!");
+                e.printStackTrace();
+            }   
+        
     }
 
     //delete 
@@ -340,6 +447,21 @@ public class QuanLiSanPham {
             }
         }
 
+    }
+
+    //tim danh sach san pham co so luong sap het <100===================================
+    public ArrayList<SanPham> ViewProductsIsLowQuantity(){
+        ArrayList<SanPham> list = new ArrayList<SanPham>();
+        QuanLiSanPham manager = new QuanLiSanPham();
+        list = manager.GetListProduct();
+        
+         ArrayList<SanPham> listLow = new ArrayList<SanPham>();
+        for (SanPham product : list) {
+            if(Integer.parseInt(product.getQuantity()) <100){
+                listLow.add(product);
+            }
+        }
+        return listLow;
     }
 
 }

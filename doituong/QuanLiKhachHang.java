@@ -84,6 +84,39 @@ public class QuanLiKhachHang extends Quanli{
         return x;
     }
 
+    public KhachHang SearchBuyerNoLoop() {
+        QuanLiKhachHang manager = new QuanLiKhachHang();
+        ArrayList<KhachHang> buyers = new ArrayList<KhachHang>();
+        buyers = manager.GetListBuyer();
+        Scanner sc = new Scanner(System.in);
+        KhachHang x = null;
+        
+            System.out.print("nhap vao ma Khach Hang || sdt || email de tim kiem :\n");
+            String a = sc.nextLine();
+
+            boolean isFound = false;
+                for(KhachHang buyer : buyers) {
+                    if(a.equals(buyer.getBuyerCode()) ||
+                            a.equals(buyer.getNumberPhone()) ||
+                            a.equals(buyer.getEmail())
+                    ){
+                        System.out.print(
+                                "Ket qua tim kiem theo: " + a + "\n\n" +
+                                        "   Khach hang: " + buyer.getName() + "\n" +
+                                        "   ma Khach hang: " + buyer.getBuyerCode() + "\n");
+                        x = buyer;
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound) {
+                    System.out.print("Khong tim thay Khach Hang theo: " + a + "\n");
+                    return null;
+                }else{
+                     return x;
+                }
+    }
+
     public KhachHang InputBuyer(){
         Scanner sc = new Scanner(System.in);
         System.out.print("nhap vao Ma Khach Hang: ");
@@ -99,7 +132,7 @@ public class QuanLiKhachHang extends Quanli{
         return new KhachHang(buyerCode, name, numberPhone, email, address);
     }
 
-    public void CheckAndAddBuyer(KhachHang a){
+    public KhachHang CheckAndAddBuyer(KhachHang a){
         QuanLiKhachHang manager = new QuanLiKhachHang();
         ArrayList<KhachHang> buyers = new ArrayList<KhachHang>();
         buyers = manager.GetListBuyer();
@@ -132,7 +165,10 @@ public class QuanLiKhachHang extends Quanli{
 
         for (KhachHang aBuyer : buyers) {
             boolean isFound = false;
-            if(aBuyer.getBuyerCode().equals(a.getBuyerCode())){
+            if(aBuyer.getBuyerCode().equals(a.getBuyerCode()) || 
+                aBuyer.getEmail().equals(a.getEmail()) || 
+                aBuyer.getNumberPhone().equals(a.getNumberPhone())
+            ){
                 isFound = true; //thay trung ma khach hang thoat vong lap
                 isFound0 = true; // dieu khien goi lai pt nhap vao lai
                 
@@ -148,7 +184,7 @@ public class QuanLiKhachHang extends Quanli{
                 System.out.print("  ten khong the chua so!\n");
             }
             if(isFound0){
-                System.out.print("  ma nhan vien ["+a.getBuyerCode()+"] da ton tai!\n");
+                System.out.print("  ma khach hang ["+a.getBuyerCode()+"] hoac email ["+a.getEmail()+"] hoac sdt ["+a.getNumberPhone()+"] da ton tai!\n");
             }
             if(!isValidEmail){
                 System.out.print("  email khong hop le!\n");
@@ -158,6 +194,7 @@ public class QuanLiKhachHang extends Quanli{
             }
             System.out.print("Vui long nhap lai thong tin!\n");
             manager.CheckAndAddBuyer(manager.InputBuyer());
+            return null;
         }
         else{
             String string = manager.BuyerToString(a);
@@ -175,6 +212,7 @@ public class QuanLiKhachHang extends Quanli{
                 System.out.print("co loi say ra trong qua trinh them Khach hang!");
                 e.printStackTrace();
             }
+            return a;
         }
     }
 

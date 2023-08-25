@@ -143,9 +143,13 @@ public class QuanLiNhanVien extends Quanli {
             resetInput = false;
         }
 
+        //check equals employeecoden, email , numberphone
         for (NhanVien aEmployee : employees) {
             boolean isFound = false;
-            if(aEmployee.getEmployeeCode().equals(a.getEmployeeCode())){
+            if(aEmployee.getEmployeeCode().equals(a.getEmployeeCode()) ||
+                aEmployee.getEmail().equals(a.getEmail()) ||
+                aEmployee.getNumberPhone().equals(a.getNumberPhone())
+            ){
                 isFound = !isFound;
                 isFound0 = !isFound0;
                 
@@ -162,7 +166,7 @@ public class QuanLiNhanVien extends Quanli {
                 System.out.print("  ten khong the chua so!\n");
             }
             if(isFound0){
-                System.out.print("  ma nhan vien ["+a.getEmployeeCode()+"] da ton tai!\n");
+                System.out.print("  ma nhan vien ["+a.getEmployeeCode()+"] hoac email ["+a.getEmail()+"] hoac sdt ["+a.getNumberPhone()+"] da ton tai!\n");
             }
             if(!isValidEmail){
                 System.out.print("  email khong hop le!\n");
@@ -285,7 +289,6 @@ public class QuanLiNhanVien extends Quanli {
        
         int index=0;
         for (NhanVien employee : employees) {
-            System.out.print(manager.EmployeeToString(employee)+"\n");
             if(x.getEmployeeCode().equals(employee.getEmployeeCode()) || 
                 x.getNumberPhone().equals(employee.getNumberPhone()) ||
                 x.getEmail().equals(employee.getEmail())

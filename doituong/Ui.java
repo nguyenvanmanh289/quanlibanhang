@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Ui {
     public static void UI(){
+        System.out.print("========HE THONG QUAN LI BAN HANG=========\n");
         Scanner sc = new Scanner(System.in);
         int n;
         do{
-            System.out.print("nhap 1||2||3 de chon cac chuc nang: \n\n");
+            System.out.print("nhap 1||2||3||4||5 de chon cac chuc nang: \n\n");
             System.out.print("1: Quan li khach Hang\n");
             System.out.print("2: Quan li Nhan Vien\n");
             System.out.print("3: Quan li San Pham\n");
-            System.out.print("4: Exit\n");
+            System.out.print("4: Quan li Ban Hang\n");
+            System.out.print("5: Exit\n");
             n=sc.nextInt();
-        } while(n<1 || n>4);
+        } while(n<1 || n>5);
 
         switch (n) {
             case 1:
@@ -26,8 +28,12 @@ public class Ui {
             case 3:
                     Ui.Qlsp();
                 break;
+
             case 4:
-                System.out.print("da thoat khoi chuong tring!");
+                    Ui2.Qlbh();
+                break;
+            case 5:
+                System.out.print("da thoat khoi chuong trinh!");
                 break;
             default:
                 break;
