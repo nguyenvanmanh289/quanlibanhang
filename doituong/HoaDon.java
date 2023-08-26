@@ -84,12 +84,99 @@ public class HoaDon {
     }
     //===============more method================//
 
+    //conver 1245.324 to tien that 1.245,324vnd=====================================
+    public String partPrice(String x){
+        
+        boolean isHavePoint = x.contains(".");
+
+        String evenPriceRaw="";
+        String oddPriceRaw="";
+        if (isHavePoint) {
+            evenPriceRaw = x.substring(0, x.indexOf("."));
+            oddPriceRaw = x.substring(x.indexOf(".") + 1, x.length());
+
+            String evenPrice="";
+            String oddPrice="";
+
+            String evenPriceArr[] = evenPriceRaw.split("");
+            String oddPriceArr[] = oddPriceRaw.split("");
+
+            ArrayList<String> listOfEven = new ArrayList<String>();
+            ArrayList<String> listOfOdd = new ArrayList<String>();
+            for (int i = 0 ; i < evenPriceRaw.length() ; i++) {
+                listOfEven.add(evenPriceArr[i]);
+            }
+            for (int j = 0 ; j < oddPriceRaw.length() ; j++) {
+                listOfOdd.add(oddPriceArr[j]);
+            }
+
+            if(listOfEven.size()<=3){
+               for (String e : listOfEven) {
+                    evenPrice+=e;
+               }    
+            }
+            else{
+                for (int k = listOfEven.size()-3;  k >= 0; k-=3) {
+                     listOfEven.add(k, ".");
+                }  
+                for (String e : listOfEven) {
+                    evenPrice+=e;
+                } 
+            }
+
+            if(listOfOdd.size()<=3){
+               for (String e : listOfOdd) {
+                    oddPrice+=e;
+               }    
+            }
+            else{
+                for (int k = listOfOdd.size()-3;  k >= 0; k-=3) {
+                     listOfOdd.add(k, ".");
+                }  
+                for (String e : listOfOdd) {
+                    oddPrice+=e;
+                } 
+            }
+           return (evenPrice+","+oddPrice+"vnd");
+
+        }else{
+            evenPriceRaw = x;
+            String evenPrice="";
+            String evenPriceArr[] = evenPriceRaw.split("");
+            ArrayList<String> listOfEven = new ArrayList<String>();
+            for (int i = 0 ; i < evenPriceRaw.length() ; i++) {
+                listOfEven.add(evenPriceArr[i]);
+            }
+
+            if(listOfEven.size()<=3){
+               for (String e : listOfEven) {
+                    evenPrice+=e;
+               }    
+            }
+            else{
+                for (int k = listOfEven.size()-3;  k >= 0; k-=3) {
+                    if(k<1){
+                        break;
+                    }
+                     listOfEven.add(k, ".");
+                     
+                }  
+                for (String e : listOfEven) {
+                    evenPrice+=e;
+                } 
+            }
+           return (evenPrice+"vnd");  
+        }
+    }
+
+
     ///partHoaDonToString
     public String partHoaDonToStringToScreen(){
-        String text = "\n\n    1"+"   ||   "+ProductCodeToName(productCode.get(0)) +"   ||   "+productCode.get(0)+"   ||   "+quantityOfSale.get(0)+"   ||   "+unitPrice.get(0)+"   ||   "+priceOfaProduct.get(0)+"   ||   "+SumPay()+"   ||   "+ this.dayOfSale+"\n";
+        HoaDon bill = new HoaDon();
+        String text = "\n\n    1"+"   ||   "+ProductCodeToName(productCode.get(0)) +"   ||   "+productCode.get(0)+"   ||   "+quantityOfSale.get(0)+"   ||   "+bill.partPrice(unitPrice.get(0))+"   ||   "+bill.partPrice(Float.toString(priceOfaProduct.get(0)))+"   ||   "+bill.partPrice(Float.toString(SumPay()))+"   ||   "+ this.dayOfSale+"\n";
         String text2 = "";
         for (int i = 1; i < this.productCode.size(); i++) {  
-            text2+="    "+Integer.toString(i+1)+"   ||   "+ProductCodeToName(productCode.get(i)) +"   ||   "+productCode.get(i)+"   ||   "+quantityOfSale.get(i)+"   ||   "+unitPrice.get(i)+"   ||   "+priceOfaProduct.get(i)+"   ||"+"\n";
+            text2+="    "+Integer.toString(i+1)+"   ||   "+ProductCodeToName(productCode.get(i)) +"   ||   "+productCode.get(i)+"   ||   "+quantityOfSale.get(i)+"   ||   "+bill.partPrice(unitPrice.get(i))+"   ||   "+bill.partPrice(Float.toString(priceOfaProduct.get(i)))+"   ||"+"\n";
         }
         return text+text2;
     }

@@ -99,7 +99,7 @@ public class NhanVien {
                 sumIncome += bill.SumPay();
             }
         }
-         System.out.print("Doanh thu nhan vien "+this.name+" la:" +sumIncome+"\n");
+         System.out.print("Doanh thu nhan vien "+this.name+" la:" +biller.partPrice(Float.toString(sumIncome))+"\n");
     }
  
 }
